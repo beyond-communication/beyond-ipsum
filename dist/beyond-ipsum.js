@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["beyond-ipsum"] = factory();
+		exports["BeyondIpsum"] = factory();
 	else
-		root["beyond-ipsum"] = factory();
+		root["BeyondIpsum"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -80,22 +80,25 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      beyond-ipsum by Isak Sandin under the MIT license
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      https://github.com/beyondisak/beyond-ipsum
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _defaultWords = __webpack_require__(1);
+
+var _defaultWords2 = _interopRequireDefault(_defaultWords);
+
+var _utilities = __webpack_require__(2);
+
+var _utilities2 = _interopRequireDefault(_utilities);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/*
- beyond-ipsum by Isak Sandin under the MIT license
- https://github.com/beyondisak/beyond-ipsum
-*/
-
-function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+var randomNumber = _utilities2.default.randomNumber;
+var extend = _utilities2.default.extend;
 
 var BeyondIpsum = function () {
   function BeyondIpsum() {
@@ -104,52 +107,50 @@ var BeyondIpsum = function () {
     _classCallCheck(this, BeyondIpsum);
 
     var defaultSettings = {
-      words: ['hey', 'you', 'don\'t', 'watch', 'that', 'this', 'is', 'the', 'heavy', 'monster', 'sound', 'nuttiest', 'around', 'so', 'if', 'you\'ve', 'come', 'in', 'from', 'street', 'and', 'you\'re', 'beginning', 'to', 'feel', 'heat', 'well', 'listen', 'buster', 'better', 'start', 'move', 'your', 'feet', 'rockinest', 'rock-steady', 'beat', 'of', 'madness', 'one', 'step', 'beyond'],
+      words: _defaultWords2.default,
 
-      startSentence: 'Hey you, don\'t watch that. Watch this!',
+      startSentence: false,
 
-      format: '\n        {h1}\n          {p}\n          {p}\n        {h2}\n          {p}\n          {p}\n        {h2}\n          {p}\n          {p}\n      ',
+      startHeadline: false,
 
-      limits: {
-        paragraph: {
-          min: 3,
-          max: 15
-        }
-      },
-
-      paragraphLimits: {
-        min: 3,
-        max: 13
-      },
+      format: '\n        {h1}\n          {p}\n          {p}\n        {h2}\n          {p}\n          {p}\n        {h2}\n          {p}\n      ',
 
       sentenceLimits: {
-        min: 3,
+        min: 2,
         max: 9
       },
 
       headlineLimits: {
         min: 3,
         max: 6
+      },
+
+      paragraphLimits: {
+        min: 4,
+        max: 13
       }
     };
 
-    this.settings = Object.assign({}, defaultSettings, options);
+    this.settings = extend({}, defaultSettings, options);
 
     this.lastWord = '';
+
+    this._firstParagraphGenerated = false;
+    this._firstHeadlineGenerated = false;
   }
 
   _createClass(BeyondIpsum, [{
-    key: 'generateWord',
-    value: function generateWord() {
+    key: 'generateRandomWord',
+    value: function generateRandomWord() {
       return this.settings.words[randomNumber(0, this.settings.words.length - 1)];
     }
   }, {
     key: 'getWord',
     value: function getWord() {
-      var word = this.generateWord();
+      var word = this.generateRandomWord();
 
       while (word === this.lastWord) {
-        word = this.generateWord();
+        word = this.generateRandomWord();
       }
 
       this.lastWord = word;
@@ -176,8 +177,13 @@ var BeyondIpsum = function () {
       var headlineLength = randomNumber(this.settings.headlineLimits.min, this.settings.headlineLimits.max);
       var headline = '';
 
-      for (var i = 0; i < headlineLength; i++) {
-        headline += this.getWord() + ' ';
+      if (!this._firstHeadlineGenerated && this.settings.startHeadline) {
+        headline += this.settings.startHeadline + ' ';
+        this._firstHeadlineGenerated = true;
+      } else {
+        for (var i = 0; i < headlineLength; i++) {
+          headline += this.getWord() + ' ';
+        }
       }
 
       headline = headline.charAt(0).toUpperCase() + headline.slice(1);
@@ -192,7 +198,14 @@ var BeyondIpsum = function () {
       var paragraph = '';
 
       for (var x = 0; x < paragraphLength; x++) {
-        paragraph += this.getSentence() + ' ';
+
+        if (!this._firstParagraphGenerated && this.settings.startSentence) {
+          paragraph += this.settings.startSentence + ' ';
+        } else {
+          paragraph += this.getSentence() + ' ';
+        }
+
+        this._firstParagraphGenerated = true;
       }
 
       return paragraph.trim();
@@ -250,7 +263,50 @@ var BeyondIpsum = function () {
   return BeyondIpsum;
 }();
 
-exports.default = BeyondIpsum;
+module.exports = BeyondIpsum;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ['hey', 'you', 'don\'t', 'watch', 'that', 'this', 'is', 'the', 'heavy', 'monster', 'sound', 'nuttiest', 'around', 'so', 'if', 'you\'ve', 'come', 'in', 'from', 'street', 'and', 'you\'re', 'beginning', 'to', 'feel', 'heat', 'well', 'listen', 'buster', 'better', 'start', 'move', 'your', 'feet', 'rockinest', 'rock-steady', 'beat', 'of', 'madness', 'one', 'step', 'beyond'];
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function extend() {
+  for (var i = 1; i < arguments.length; i++) {
+    for (var key in arguments[i]) {
+      if (arguments[i].hasOwnProperty(key)) {
+        arguments[0][key] = arguments[i][key];
+      }
+    }
+  }
+
+  return arguments[0];
+}
+
+exports.default = {
+  randomNumber: randomNumber,
+  extend: extend
+};
 
 /***/ })
 /******/ ]);

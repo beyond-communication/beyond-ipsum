@@ -3,61 +3,22 @@
  https://github.com/beyondisak/beyond-ipsum
 */
 
-function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+import defaultWords from './includes/default-words';
+import utils from './includes/utilities';
+
+const randomNumber = utils.randomNumber;
+const extend = utils.extend;
 
 class BeyondIpsum {
 
   constructor(options = {}) {
 
     const defaultSettings = {
-      words: [
-        'hey',
-        'you',
-        'don\'t',
-        'watch',
-        'that',
-        'this',
-        'is',
-        'the',
-        'heavy',
-        'monster',
-        'sound',
-        'nuttiest',
-        'around',
-        'so',
-        'if',
-        'you\'ve',
-        'come',
-        'in',
-        'from',
-        'street',
-        'and',
-        'you\'re',
-        'beginning',
-        'to',
-        'feel',
-        'heat',
-        'well',
-        'listen',
-        'buster',
-        'better',
-        'start',
-        'move',
-        'your',
-        'feet',
-        'rockinest',
-        'rock-steady',
-        'beat',
-        'of',
-        'madness',
-        'one',
-        'step',
-        'beyond',
-      ],
+      words: defaultWords,
 
-      startSentence: 'Hey you, don\'t watch that. Watch this!',
+      startSentence: false,
+
+      startHeadline: false,
 
       format: `
         {h1}
@@ -68,23 +29,10 @@ class BeyondIpsum {
           {p}
         {h2}
           {p}
-          {p}
       `,
 
-      limits: {
-        paragraph: {
-          min: 3,
-          max: 15,
-        }
-      },
-
-      paragraphLimits: {
-        min: 3,
-        max: 13,
-      },
-
       sentenceLimits: {
-        min: 3,
+        min: 2,
         max: 9,
       },
 
@@ -92,22 +40,30 @@ class BeyondIpsum {
         min: 3,
         max: 6,
       },
+
+      paragraphLimits: {
+        min: 4,
+        max: 13,
+      },
     };
 
-    this.settings = Object.assign({}, defaultSettings, options);
+    this.settings = extend({}, defaultSettings, options);
 
     this.lastWord = '';
+
+    this._firstParagraphGenerated = false;
+    this._firstHeadlineGenerated = false;
   }
 
-  generateWord() {
+  generateRandomWord() {
     return this.settings.words[randomNumber(0, this.settings.words.length - 1)];
   }
 
   getWord() {
-    let word = this.generateWord();
+    let word = this.generateRandomWord();
 
     while (word === this.lastWord) {
-      word = this.generateWord();
+      word = this.generateRandomWord();
     }
 
     this.lastWord = word;
@@ -132,8 +88,14 @@ class BeyondIpsum {
     const headlineLength = randomNumber(this.settings.headlineLimits.min, this.settings.headlineLimits.max);
     let headline = '';
 
-    for (var i = 0; i < headlineLength; i++) {
-      headline += this.getWord() + ' ';
+    if (!this._firstHeadlineGenerated && this.settings.startHeadline) {
+      headline += this.settings.startHeadline + ' ';
+      this._firstHeadlineGenerated = true;
+
+    } else {
+      for (var i = 0; i < headlineLength; i++) {
+        headline += this.getWord() + ' ';
+      }
     }
 
     headline = headline.charAt(0).toUpperCase() + headline.slice(1);
@@ -147,7 +109,15 @@ class BeyondIpsum {
     let paragraph = '';
 
     for (var x = 0; x < paragraphLength; x++) {
-      paragraph += this.getSentence() + ' ';
+
+      if (!this._firstParagraphGenerated && this.settings.startSentence) {
+        paragraph += this.settings.startSentence + ' ';
+
+      } else {
+        paragraph += this.getSentence() + ' ';
+      }
+
+      this._firstParagraphGenerated = true;
     }
 
     return paragraph.trim();
@@ -197,4 +167,4 @@ class BeyondIpsum {
   }
 }
 
-export default BeyondIpsum;
+module.exports = BeyondIpsum;

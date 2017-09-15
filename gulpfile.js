@@ -10,7 +10,7 @@ gulp.task('clean', () => del(['./dist']))
 const webpackConfig = minimize => ({
   output: {
     filename: minimize ? 'beyond-ipsum.min.js' : 'beyond-ipsum.js',
-    library: 'beyond-ipsum',
+    library: 'BeyondIpsum',
     libraryTarget: 'umd'
   },
   module: {

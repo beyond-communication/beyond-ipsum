@@ -59,7 +59,11 @@ var generator = new BeyondIpsum({
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
+<<<<<<< HEAD
 | `words` | `array` | The first 42 unique words in the lyrics of One Step beyond by Madness | The words to use |
+=======
+| `words` | `array` | `// The first 42 unique words in the lyrics of One Step beyond by Madness` | The words to use |
+>>>>>>> a4418ae6dc52486e9b8bf5a61ea2707169097e61
 | `sentenceLimits` | `object` | `{min: 2, max: 9}` | Min/max words in a sentence |
 | `headlineLimits` | `object` | `{min: 3, max: 6}` | Min/max words in a headline |
 | `paragraphLimits` | `object` | `{min: 4, max: 13}` |  Min/max sentences in a paragraph |

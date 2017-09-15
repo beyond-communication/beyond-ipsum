@@ -1,6 +1,6 @@
 # beyond-ipsum
 
-🔠 - A filler text generator defaulting to the beginning lyrics from the song [_One Step Beyond_](https://www.youtube.com/watch?v=N-uyWAe0NhQ) by [_Madness_](https://en.wikipedia.org/wiki/Madness_(band%29)
+🔠 - A filler text generator defaulting to the beginning lyrics from the song [_One Step Beyond_](https://www.youtube.com/watch?v=N-uyWAe0NhQ) by _Madness_.
 
 ## Installation
 

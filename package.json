@@ -1,0 +1,31 @@
+{
+  "name": "beyond-ipsum",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./dist/beyond-ipsum.min.js",
+  "scripts": {
+    "dev": "gulp",
+    "build": "gulp clean && gulp script"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beyondisak/beyond-ipsum.git"
+  },
+  "author": "Isak Sandin <isak@onestepbeyond.se>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/beyondisak/beyond-ipsum/issues"
+  },
+  "homepage": "https://github.com/beyondisak/beyond-ipsum#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-webpack": "^1.5.0",
+    "run-sequence": "^2.1.0",
+    "webpack": "^3.5.6"
+  }
+}

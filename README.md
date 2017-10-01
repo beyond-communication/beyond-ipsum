@@ -59,27 +59,24 @@ var generator = new BeyondIpsum({
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `words` | `array` | The first 42 unique words in the lyrics of One Step beyond by Madness | The words to use |
-| `sentenceLimits` | `object` | `{min: 2, max: 9}` | Min/max words in a sentence |
-| `headlineLimits` | `object` | `{min: 3, max: 6}` | Min/max words in a headline |
-| `paragraphLimits` | `object` | `{min: 4, max: 13}` |  Min/max sentences in a paragraph |
-| `startSentence` | `string` / `boolean` | `false` |  Sentence to begin the first paragraph with, `false` if just random |
-| `startHeadline` | `string` / `boolean` | `false` |  Sentence to use as the first headline, `false` if just random |
-| `format` | `string` | '{h1}{p}{p}{h2}{p}{p}{h2}{p}' | Describe the format of getFormattedContent(). Put the wanted tag names between curly braces. |
+| `words` | `Array` | The first 42 unique words in the lyrics of One Step beyond by Madness | The words to use |
+| `sentenceLimits` | `Object` | `{min: 2, max: 9}` | Min/max words in a sentence |
+| `headlineLimits` | `Object` | `{min: 3, max: 6}` | Min/max words in a headline |
+| `paragraphLimits` | `Object` | `{min: 4, max: 13}` |  Min/max sentences in a paragraph |
+| `startSentence` | `String` / `boolean` | `false` |  Sentence to begin the first paragraph with, `false` if just random |
+| `startHeadline` | `String` / `boolean` | `false` |  Sentence to use as the first headline, `false` if just random |
+| `format` | `String` | '{h1}{p}{p}{h2}{p}{p}{h2}{p}' | Describe the format of getFormattedContent(). Put the wanted tag names between curly braces. |
+| `allowRepeatedWords` | `Boolean` | `false` | If true, the same word can appear twice in a row. |
 
 ## API
 
-### generateRandomWord()
-
-#### Returns
-
-{String} Random word from the pool of words.
-
 ### getWord()
 
+Get a random word from the pool of words. If option `allowRepeatedWords` is `false`, this method will not return the same word twice in row.
+
 #### Returns
 
-{String} Random word from the pool of words, that is not the exact same as the last generated word.
+{String} A word from the pool.
 
 ### getSentence()
 

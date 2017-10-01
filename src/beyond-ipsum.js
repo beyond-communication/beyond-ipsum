@@ -16,6 +16,8 @@ class BeyondIpsum {
     const defaultSettings = {
       words: defaultWords,
 
+      allowRepeatedWords: false,
+
       startSentence: false,
 
       startHeadline: false,
@@ -55,18 +57,17 @@ class BeyondIpsum {
     this._firstHeadlineGenerated = false;
   }
 
-  generateRandomWord() {
-    return this.settings.words[randomNumber(0, this.settings.words.length - 1)];
-  }
-
   getWord() {
-    let word = this.generateRandomWord();
+    let word = this.settings.words[randomNumber(0, this.settings.words.length - 1)];
 
-    while (word === this.lastWord) {
-      word = this.generateRandomWord();
+    if (!this.settings.allowRepeatedWords) {
+      while (word === this.lastWord) {
+        word = this.settings.words[randomNumber(0, this.settings.words.length - 1)];
+      }
     }
 
     this.lastWord = word;
+
     return word;
   }
 

@@ -109,6 +109,8 @@ var BeyondIpsum = function () {
     var defaultSettings = {
       words: _defaultWords2.default,
 
+      allowRepeatedWords: false,
+
       startSentence: false,
 
       startHeadline: false,
@@ -140,20 +142,18 @@ var BeyondIpsum = function () {
   }
 
   _createClass(BeyondIpsum, [{
-    key: 'generateRandomWord',
-    value: function generateRandomWord() {
-      return this.settings.words[randomNumber(0, this.settings.words.length - 1)];
-    }
-  }, {
     key: 'getWord',
     value: function getWord() {
-      var word = this.generateRandomWord();
+      var word = this.settings.words[randomNumber(0, this.settings.words.length - 1)];
 
-      while (word === this.lastWord) {
-        word = this.generateRandomWord();
+      if (!this.settings.allowRepeatedWords) {
+        while (word === this.lastWord) {
+          word = this.settings.words[randomNumber(0, this.settings.words.length - 1)];
+        }
       }
 
       this.lastWord = word;
+
       return word;
     }
   }, {

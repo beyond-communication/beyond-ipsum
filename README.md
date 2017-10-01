@@ -65,3 +65,54 @@ var generator = new BeyondIpsum({
 | `paragraphLimits` | `object` | `{min: 4, max: 13}` |  Min/max sentences in a paragraph |
 | `startSentence` | `string` / `boolean` | `false` |  Sentence to begin the first paragraph with, `false` if just random |
 | `startHeadline` | `string` / `boolean` | `false` |  Sentence to use as the first headline, `false` if just random |
+| `format` | `string` | '{h1}{p}{p}{h2}{p}{p}{h2}{p}' | Describe the format of getFormattedContent(). Put the wanted tag names between curly braces. |
+
+## API
+
+### generateRandomWord()
+
+#### Returns
+
+{String} Random word from the pool of words.
+
+### getWord()
+
+#### Returns
+
+{String} Random word from the pool of words, that is not the exact same as the last generated word.
+
+### getSentence()
+
+#### Returns
+
+{String} Random sentence made up from the pool of words.
+
+### getHeadline();
+
+#### Returns
+
+{String} Random text string suitable for headlines.
+
+### getParagraph()
+
+#### Returns
+
+{String} Paragraph of text made up from random sentences.
+
+### getParagraphs(numberOfParagraphs)
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `numberOfParagraphs` | `Number` | 3 | Number of paragraps to return |
+
+#### Returns
+
+{String} Multiple paragraphs made up from random sentences.
+
+### getFormattedContent()
+
+#### Returns
+
+{String} Formatted random text, based on the `format` option.

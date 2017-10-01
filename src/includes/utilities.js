@@ -14,7 +14,12 @@ function extend(){
   return arguments[0];
 }
 
+function deprecated(message) {
+  console.warn(`beyond-ipsum: ${message}`);
+}
+
 export default {
   randomNumber,
   extend,
+  deprecated,
 };

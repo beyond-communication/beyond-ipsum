@@ -99,6 +99,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var randomNumber = _utilities2.default.randomNumber;
 var extend = _utilities2.default.extend;
+var deprecated = _utilities2.default.deprecated;
 
 var defaultSettings = {
   words: _defaultWords2.default,
@@ -107,7 +108,7 @@ var defaultSettings = {
 
   startSentence: false,
 
-  startHeadline: false,
+  startHeading: false,
 
   format: '\n    <h1/>\n      <p/>\n    <h2/>\n      <p/>\n      <p/>\n    <h2/>\n      <p/>\n  ',
 
@@ -116,7 +117,7 @@ var defaultSettings = {
     max: 9
   },
 
-  headlineLimits: {
+  headingLimits: {
     min: 3,
     max: 6
   },
@@ -138,7 +139,7 @@ var BeyondIpsum = function () {
     this.lastWord = '';
 
     this._firstParagraphGenerated = false;
-    this._firstHeadlineGenerated = false;
+    this._firstHeadingGenerated = false;
   }
 
   _createClass(BeyondIpsum, [{
@@ -190,22 +191,28 @@ var BeyondIpsum = function () {
   }, {
     key: 'getHeadline',
     value: function getHeadline() {
-      var headlineLength = randomNumber(this.settings.headlineLimits.min, this.settings.headlineLimits.max);
-      var headline = '';
+      deprecated('getHeadline() is deprecated and will be removed in the next major version (v2.x.x). Use getHeading instead.');
+      return this.getHeading();
+    }
+  }, {
+    key: 'getHeading',
+    value: function getHeading() {
+      var headingLength = randomNumber(this.settings.headingLimits.min, this.settings.headingLimits.max);
+      var heading = '';
 
-      if (!this._firstHeadlineGenerated && this.settings.startHeadline) {
-        headline += this.settings.startHeadline + ' ';
-        this._firstHeadlineGenerated = true;
+      if (!this._firstHeadingGenerated && this.settings.startHeading) {
+        heading += this.settings.startHeading + ' ';
+        this._firstHeadingGenerated = true;
       } else {
-        for (var i = 0; i < headlineLength; i++) {
-          headline += this.getWord() + ' ';
+        for (var i = 0; i < headingLength; i++) {
+          heading += this.getWord() + ' ';
         }
       }
 
-      headline = headline.charAt(0).toUpperCase() + headline.slice(1);
-      headline = headline.trim();
+      heading = heading.charAt(0).toUpperCase() + heading.slice(1);
+      heading = heading.trim();
 
-      return headline;
+      return heading;
     }
   }, {
     key: 'getParagraph',
@@ -257,7 +264,7 @@ var BeyondIpsum = function () {
       var _this = this;
 
       this._firstParagraphGenerated = false;
-      this._firstHeadlineGenerated = false;
+      this._firstHeadingGenerated = false;
 
       var elements = this.settings.format.match(/<\s*[\w\.]+\s*\/>|{\s*[\w\.]+\s*}/g);
 
@@ -268,7 +275,7 @@ var BeyondIpsum = function () {
           var elementType = element.match(/[\w\.]+/)[0];
 
           if (elementType === 'h1' || elementType === 'h2') {
-            content += '<' + elementType + '>' + _this.getHeadline() + '</' + elementType + '>';
+            content += '<' + elementType + '>' + _this.getHeading() + '</' + elementType + '>';
           } else {
             content += '<' + elementType + '>' + _this.getParagraph() + '</' + elementType + '>';
           }
@@ -276,6 +283,41 @@ var BeyondIpsum = function () {
       }
 
       return content;
+    }
+  }, {
+    key: 'interpolate',
+    value: function interpolate() {
+      var _this2 = this;
+
+      var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      this._firstParagraphGenerated = false;
+      this._firstHeadingGenerated = false;
+
+      var types = {
+        '{{heading}}': this.getHeading,
+        '{{paragraph}}': this.getParagraph,
+        '{{sentence}}': this.getSentence,
+        '{{word}}': this.getWord
+      };
+
+      var _loop = function _loop(type) {
+        if (types.hasOwnProperty(type)) {
+          var toInterpolate = string.match(new RegExp(type, 'g'));
+
+          if (toInterpolate) {
+            toInterpolate.forEach(function (interpolation) {
+              string = string.replace(interpolation, types[type].apply(_this2));
+            });
+          }
+        }
+      };
+
+      for (var type in types) {
+        _loop(type);
+      }
+
+      return string;
     }
   }]);
 
@@ -322,9 +364,14 @@ function extend() {
   return arguments[0];
 }
 
+function deprecated(message) {
+  console.warn("beyond-ipsum: " + message);
+}
+
 exports.default = {
   randomNumber: randomNumber,
-  extend: extend
+  extend: extend,
+  deprecated: deprecated
 };
 
 /***/ })

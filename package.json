@@ -1,8 +1,19 @@
 {
   "name": "beyond-ipsum",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A filler text generator defaulting to the beginning lyrics from the song One Step Beyond by Madness",
-  "keywords": ["lorem", "ipsum", "text", "filler", "generator", "placeholder", "madness", "one", "step", "beyond"],
+  "keywords": [
+    "lorem",
+    "ipsum",
+    "text",
+    "filler",
+    "generator",
+    "placeholder",
+    "madness",
+    "one",
+    "step",
+    "beyond"
+  ],
   "main": "./dist/beyond-ipsum.min.js",
   "scripts": {
     "dev": "gulp",

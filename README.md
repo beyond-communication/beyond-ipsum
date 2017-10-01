@@ -39,7 +39,7 @@ var generator = new BeyondIpsum();
 import BeyondIpsum from 'beyond-ipsum';
 
 const generator = new BeyondIpsum({
-  // Options for the generator, see section 'Options'
+  // Settings for the generator, see section 'Settings'
 });
 
 // Get a random sentence
@@ -49,15 +49,15 @@ console.log(sentence);
 // e.g "Move heavy beyond nuttiest well move you've to in."
 ```
 
-## Options
+## Settings
 
 ```javascript
 var generator = new BeyondIpsum({
-  // Options here
+  // Settings here
 });
 ```
 
-| Option | Type | Default | Description |
+| Setting | Type | Default | Description |
 | --- | --- | --- | --- |
 | `words` | `Array` | The first 42 unique words in the lyrics of One Step beyond by Madness | The words to use |
 | `sentenceLimits` | `Object` | `{min: 2, max: 9}` | Min/max words in a sentence |
@@ -72,7 +72,7 @@ var generator = new BeyondIpsum({
 
 ### getWord()
 
-Get a random word from the pool of words. If option `allowRepeatedWords` is `false`, this method will not return the same word twice in row.
+Get a random word from the pool of words. If setting `allowRepeatedWords` is `false`, this method will not return the same word twice in row.
 
 #### Returns
 
@@ -96,7 +96,7 @@ Get a random word from the pool of words. If option `allowRepeatedWords` is `fal
 
 {String} Paragraph of text made up from random sentences.
 
-### getParagraphs(numberOfParagraphs)
+### getParagraphs(`numberOfParagraphs`)
 
 #### Parameters
 
@@ -112,4 +112,26 @@ Get a random word from the pool of words. If option `allowRepeatedWords` is `fal
 
 #### Returns
 
-{String} Formatted random text, based on the `format` option.
+{String} Formatted random text, based on the `format` setting.
+
+### updateSettings(`newSettings`)
+
+Update/overwrite the settings after instantiation.
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `newSettings` | `Object` | `{}` | Object with the settings to overwrite. |
+
+#### Returns
+
+{Object} The new settings object
+
+### resetDefaultSettings()
+
+Reset to the default settings after instantiation.
+
+#### Returns
+
+{Object} The new settings object

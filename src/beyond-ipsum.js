@@ -9,52 +9,63 @@ import utils from './includes/utilities';
 const randomNumber = utils.randomNumber;
 const extend = utils.extend;
 
+const defaultSettings = {
+  words: defaultWords,
+
+  allowRepeatedWords: false,
+
+  startSentence: false,
+
+  startHeadline: false,
+
+  format: `
+    {h1}
+      {p}
+      {p}
+    {h2}
+      {p}
+      {p}
+    {h2}
+      {p}
+  `,
+
+  sentenceLimits: {
+    min: 2,
+    max: 9,
+  },
+
+  headlineLimits: {
+    min: 3,
+    max: 6,
+  },
+
+  paragraphLimits: {
+    min: 4,
+    max: 13,
+  },
+};
+
 class BeyondIpsum {
 
-  constructor(options = {}) {
-
-    const defaultSettings = {
-      words: defaultWords,
-
-      allowRepeatedWords: false,
-
-      startSentence: false,
-
-      startHeadline: false,
-
-      format: `
-        {h1}
-          {p}
-          {p}
-        {h2}
-          {p}
-          {p}
-        {h2}
-          {p}
-      `,
-
-      sentenceLimits: {
-        min: 2,
-        max: 9,
-      },
-
-      headlineLimits: {
-        min: 3,
-        max: 6,
-      },
-
-      paragraphLimits: {
-        min: 4,
-        max: 13,
-      },
-    };
-
-    this.settings = extend({}, defaultSettings, options);
+  constructor(settings = {}) {
+    this.settings = extend({}, defaultSettings, settings);
 
     this.lastWord = '';
 
     this._firstParagraphGenerated = false;
     this._firstHeadlineGenerated = false;
+  }
+
+  updateSettings(newSettings = {}) {
+    this.settings = extend({}, this.settings, newSettings);
+
+    return this.settings;
+  }
+
+  resetDefaultSettings() {
+    this.settings = extend({}, defaultSettings);
+
+    return this.settings;
   }
 
   getWord() {
@@ -147,6 +158,10 @@ class BeyondIpsum {
   }
 
   getFormattedContent() {
+
+    this._firstParagraphGenerated = false;
+    this._firstHeadlineGenerated = false;
+
     let elements = this.settings.format.match(/{\s*[\w\.]+\s*}/g);
 
     let content = '';

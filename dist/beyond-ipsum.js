@@ -100,40 +100,40 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var randomNumber = _utilities2.default.randomNumber;
 var extend = _utilities2.default.extend;
 
+var defaultSettings = {
+  words: _defaultWords2.default,
+
+  allowRepeatedWords: false,
+
+  startSentence: false,
+
+  startHeadline: false,
+
+  format: '\n    {h1}\n      {p}\n      {p}\n    {h2}\n      {p}\n      {p}\n    {h2}\n      {p}\n  ',
+
+  sentenceLimits: {
+    min: 2,
+    max: 9
+  },
+
+  headlineLimits: {
+    min: 3,
+    max: 6
+  },
+
+  paragraphLimits: {
+    min: 4,
+    max: 13
+  }
+};
+
 var BeyondIpsum = function () {
   function BeyondIpsum() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, BeyondIpsum);
 
-    var defaultSettings = {
-      words: _defaultWords2.default,
-
-      allowRepeatedWords: false,
-
-      startSentence: false,
-
-      startHeadline: false,
-
-      format: '\n        {h1}\n          {p}\n          {p}\n        {h2}\n          {p}\n          {p}\n        {h2}\n          {p}\n      ',
-
-      sentenceLimits: {
-        min: 2,
-        max: 9
-      },
-
-      headlineLimits: {
-        min: 3,
-        max: 6
-      },
-
-      paragraphLimits: {
-        min: 4,
-        max: 13
-      }
-    };
-
-    this.settings = extend({}, defaultSettings, options);
+    this.settings = extend({}, defaultSettings, settings);
 
     this.lastWord = '';
 
@@ -142,6 +142,22 @@ var BeyondIpsum = function () {
   }
 
   _createClass(BeyondIpsum, [{
+    key: 'updateSettings',
+    value: function updateSettings() {
+      var newSettings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      this.settings = extend({}, this.settings, newSettings);
+
+      return this.settings;
+    }
+  }, {
+    key: 'resetDefaultSettings',
+    value: function resetDefaultSettings() {
+      this.settings = extend({}, defaultSettings);
+
+      return this.settings;
+    }
+  }, {
     key: 'getWord',
     value: function getWord() {
       var word = this.settings.words[randomNumber(0, this.settings.words.length - 1)];
@@ -239,6 +255,9 @@ var BeyondIpsum = function () {
     key: 'getFormattedContent',
     value: function getFormattedContent() {
       var _this = this;
+
+      this._firstParagraphGenerated = false;
+      this._firstHeadlineGenerated = false;
 
       var elements = this.settings.format.match(/{\s*[\w\.]+\s*}/g);
 

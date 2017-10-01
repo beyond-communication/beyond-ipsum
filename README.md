@@ -65,7 +65,7 @@ var generator = new BeyondIpsum({
 | `paragraphLimits` | `Object` | `{min: 4, max: 13}` |  Min/max sentences in a paragraph |
 | `startSentence` | `String` / `boolean` | `false` |  Sentence to begin the first paragraph with, `false` if just random |
 | `startHeadline` | `String` / `boolean` | `false` |  Sentence to use as the first headline, `false` if just random |
-| `format` | `String` | '{h1}{p}{p}{h2}{p}{p}{h2}{p}' | Describe the format of getFormattedContent(). Put the wanted tag names between curly braces. |
+| `format` | `String` | `<h1/><p/><h2/><p/><p/><h2/><p/>` | Describe the format of getFormattedContent(). Put the wanted tag names between `<` and `/>`. Heading tag names will generate headings in them, all other will generate a paragraph as their content. |
 | `allowRepeatedWords` | `Boolean` | `false` | If true, the same word can appear twice in a row. |
 
 ## API

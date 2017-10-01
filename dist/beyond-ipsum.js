@@ -109,7 +109,7 @@ var defaultSettings = {
 
   startHeadline: false,
 
-  format: '\n    {h1}\n      {p}\n      {p}\n    {h2}\n      {p}\n      {p}\n    {h2}\n      {p}\n  ',
+  format: '\n    <h1/>\n      <p/>\n    <h2/>\n      <p/>\n      <p/>\n    <h2/>\n      <p/>\n  ',
 
   sentenceLimits: {
     min: 2,
@@ -259,7 +259,7 @@ var BeyondIpsum = function () {
       this._firstParagraphGenerated = false;
       this._firstHeadlineGenerated = false;
 
-      var elements = this.settings.format.match(/{\s*[\w\.]+\s*}/g);
+      var elements = this.settings.format.match(/<\s*[\w\.]+\s*\/>|{\s*[\w\.]+\s*}/g);
 
       var content = '';
 

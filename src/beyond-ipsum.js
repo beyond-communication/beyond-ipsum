@@ -19,14 +19,13 @@ const defaultSettings = {
   startHeadline: false,
 
   format: `
-    {h1}
-      {p}
-      {p}
-    {h2}
-      {p}
-      {p}
-    {h2}
-      {p}
+    <h1/>
+      <p/>
+    <h2/>
+      <p/>
+      <p/>
+    <h2/>
+      <p/>
   `,
 
   sentenceLimits: {
@@ -162,7 +161,7 @@ class BeyondIpsum {
     this._firstParagraphGenerated = false;
     this._firstHeadlineGenerated = false;
 
-    let elements = this.settings.format.match(/{\s*[\w\.]+\s*}/g);
+    let elements = this.settings.format.match(/<\s*[\w\.]+\s*\/>|{\s*[\w\.]+\s*}/g);
 
     let content = '';
 
